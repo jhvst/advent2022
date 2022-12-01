@@ -8,3 +8,7 @@ I cheesed this.
 4. cat result.txt | sed 's/ /\n/g' | ^sort
 
 Then I took the results from the last command. :)
+
+# day1-revised
+
+See `day1-revised.bqn`.
