@@ -5,22 +5,22 @@ Compartments ← {⟨𝕩↑𝕨,𝕩↓𝕨⟩}⟜{{𝕩÷2}≠}
 Encode ← 1+alphabet⊐⊣
 Mask ← ∊○(alphabet⊐⊣)
 Rucksack ← ⍷{((0⊑𝕩) Mask (1⊑𝕩)) / Encode 0⊑𝕩}
-a ← +´∾{Rucksack}⟜Compartments ¨ input
+a ← +´∾Rucksack∘Compartments ¨input
 
 Decode ← {(𝕩-1)⊑alphabet}
-Bound ← {((≠𝕩)÷3)}
-Reshape ← { (Bound 𝕩)‿3 ⥊ 𝕩 }
+Bound ← {𝕩÷3}≠
+Reshape ← {(Bound 𝕩)‿3 ⥊ 𝕩}
 Common ← {
   occ1 ← Rucksack ⟨0⊑𝕩, 1⊑𝕩⟩
   occ2 ← Rucksack ⟨1⊑𝕩, 2⊑𝕩⟩
   occ3 ← Rucksack ⟨2⊑𝕩, 0⊑𝕩⟩
 
   ⍷∾⟨
-    Rucksack ⟨Decode ¨occ1, Decode¨occ2⟩
-    Rucksack ⟨Decode ¨occ2, Decode¨occ3⟩
-    Rucksack ⟨Decode ¨occ3, Decode¨occ1⟩
+    Rucksack ⟨Decode ¨occ1, Decode ¨occ2⟩
+    Rucksack ⟨Decode ¨occ2, Decode ¨occ3⟩
+    Rucksack ⟨Decode ¨occ3, Decode ¨occ1⟩
   ⟩
 }
-b ← +´∾{Common 𝕩⊏Reshape input}¨↕Bound input
+b ← +´∾{Common 𝕩⊏Reshape input} ¨↕Bound input
 
 a‿b
