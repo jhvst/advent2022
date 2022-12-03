@@ -2,9 +2,9 @@ input ← ⟨"jLnFTjhwFTLFDGDDvLgvDssBJBbVRNZJPPJBGzBNRVJNRB","QWmffSmMZCfWrmHlC
 alphabet ← ('a'+↕26)∾('A'+↕26)
 
 Compartments ← {⟨𝕩↑𝕨,𝕩↓𝕨⟩}⟜{{𝕩÷2}≠}
-Occurances ← /⟜{1+alphabet⊐𝕩}
-Mask ← ∊○{alphabet⊐𝕩}
-Rucksack ← ⍷{((⊑𝕩) Mask (1⊑𝕩)) Occurances ⊑𝕩}
+Encode ← 1+alphabet⊐⊣
+Mask ← ∊○(alphabet⊐⊣)
+Rucksack ← ⍷{((0⊑𝕩) Mask (1⊑𝕩)) / Encode 0⊑𝕩}
 a ← +´∾{Rucksack}⟜Compartments ¨ input
 
 Decode ← {(𝕩-1)⊑alphabet}
