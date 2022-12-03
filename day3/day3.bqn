@@ -7,6 +7,7 @@ Mask ← ∊○{alphabet⊐𝕩}
 Rucksack ← ⍷{((⊑𝕩) Mask (1⊑𝕩)) Occurances ⊑𝕩}
 a ← +´∾{Rucksack}⟜Compartments ¨ input
 
+Decode ← {(𝕩-1)⊑alphabet}
 Bound ← {((≠𝕩)÷3)}
 Reshape ← { (Bound 𝕩)‿3 ⥊ 𝕩 }
 Common ← {
@@ -14,11 +15,12 @@ Common ← {
   occ2 ← Rucksack ⟨1⊑𝕩, 2⊑𝕩⟩
   occ3 ← Rucksack ⟨2⊑𝕩, 0⊑𝕩⟩
 
-  ⍷∾⟨(occ1 ∊ occ2) / occ1,
-  (occ2 ∊ occ3) / occ2,
-  (occ3 ∊ occ1) / occ3⟩
+  ⍷∾⟨
+    Rucksack ⟨Decode ¨occ1, Decode¨occ2⟩
+    Rucksack ⟨Decode ¨occ2, Decode¨occ3⟩
+    Rucksack ⟨Decode ¨occ3, Decode¨occ1⟩
+  ⟩
 }
-
 b ← +´∾{Common 𝕩⊏Reshape input}¨↕Bound input
 
 a‿b
