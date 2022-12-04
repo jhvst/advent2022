@@ -1011,23 +1011,14 @@ example ← "2-4,6-8
 Split ← ((⊢-˜+`×¬)∘=⊔⊢) # Split y1 at occurrences of separators x0, removing the separators
 Nat ← 10⊸×⊸+˜´∘⌽-⟜'0' # Parse natural number from string
 
-# First, cut by newline "@+10"
-# Second, cut by ","
-# Third, cut bt "-"
-# Fourth, reshape so that each row has 4 values
-mat ← (↑‿4)⥊Nat¨∾('-')Split¨∾(',')Split¨(@+10)Split⊢ example
-rows ← {𝕩⊏mat}¨↕6
-ranges ← {⟨((0⊑𝕩)↓↕1+1⊑𝕩),((2⊑𝕩)↓↕1+3⊑𝕩)⟩}¨rows
-•Show (↑‿2)⥊∾ranges
-•Show +´{1=⌈´(0⊑𝕩)∊(1⊑𝕩)}¨ranges
+Pair ← {(0⊑𝕩)↓↕1+1⊑𝕩}
 
 fmt ← (↑‿4)⥊Nat¨∾('-')Split¨∾(',')Split¨(@+10)Split⊢ input
-rows2 ← {𝕩⊏fmt}¨↕1000
-ranges2 ← {⟨((0⊑𝕩)↓↕1+1⊑𝕩),((2⊑𝕩)↓↕1+3⊑𝕩)⟩}¨rows2
-overlap1 ← +´{1=⌊´(0⊑𝕩)∊(1⊑𝕩)}¨ranges2
-overlap2 ← +´{1=⌊´(1⊑𝕩)∊(0⊑𝕩)}¨ranges2
-exact ← +´{(1⊑𝕩)≡(0⊑𝕩)}¨ranges2
+ranges ← {⟨Pair 𝕩, Pair 2↓𝕩⟩}¨{𝕩⊏fmt}¨↕1000
+overlap1 ← +´{1=⌊´(0⊑𝕩)∊(1⊑𝕩)}¨ranges
+overlap2 ← +´{1=⌊´(1⊑𝕩)∊(0⊑𝕩)}¨ranges
+exact ← +´{(1⊑𝕩)≡(0⊑𝕩)}¨ranges
 a ← overlap1 + overlap2 - exact
-b ← +´{1=⌈´(0⊑𝕩)∊(1⊑𝕩)}¨ranges2
+b ← +´{1=⌈´(0⊑𝕩)∊(1⊑𝕩)}¨ranges
 
 a‿b
