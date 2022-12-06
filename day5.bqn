@@ -517,92 +517,37 @@ move 1 from 8 to 9
 
 # https://mlochbaum.github.io/bqncrate/
 Split ← ((⊢-˜+`×¬)∘=⊔⊢) # Split y1 at occurrences of separators x0, removing the separators
-Nat ← 10⊸×⊸+˜´∘⌽-⟜'0' # Parse natural number from string
 Extract ← {(>⟜«0≤𝕩)/0(0⊸≤××⟜10⊸+)`𝕩}∘-⟜'0'
 DropNth ← (⊢/˜0≠|⟜(↕≠))
 Trim ← ((∨`∧∨`⌾⌽)' '⊸≠)⊸/
-TrimZ ← ((∨`∧∨`⌾⌽)0⊸≠)⊸/
-TrimE ← ((∨`∧∨`⌾⌽)""⊸≠)⊸/
-TrimD ← ((∨`∧∨`⌾⌽)"-"⊸≠)⊸/
 
 y ← ↑‿3 ⥊ 2 DropNth ⥊ ∾Extract ¨ (@+10)Split ⊢ moves
 x ← 2 DropNth¨{' '∾𝕩∾' '}¨ 2 DropNth¨¯1↓ ↑‿1 ⥊ (@+10)Split 1↓⊢ •Show mat 
 
 •Show tmat ← ⍉⌽(↑‿9) ⥊ ⟨∾⥊x⟩ ⊣⌾∾ (⋈¨↕≠∾⥊x)
-
-charmat ← {Trim ∾ }¨{(8↑⥊𝕩⊏tmat) ⊣⌾∾ ⟨"--------"⟩ }¨↕9
+•Show charmat ← {Trim ∾ }¨{(8↑⥊𝕩⊏tmat) ⊣⌾∾ ⟨"--------"⟩ }¨↕9
 
 Reorder ← {
-
-  #•Show charmat
 
   move ← 0⊑𝕨
   from ← (1⊑𝕨)-1
   to ← (2⊑𝕨)-1
 
-  #•Show ⟨move, from, to⟩
-
-  src ← (↕move) ⊏ ⌽from⊑charmat
+  src ← ¬∘(1≢move)◶{⌽}‿⊢ (↕move) ⊏ ⌽from⊑charmat
   trg ← to⊑charmat
   srcNew ← (¯1×move)↓from⊑charmat
-  src ↩ ¬∘(1≢move)◶{⌽}‿⊢ src
   trgNew ← (trg ∾ src)
-
-  #•Show ⟨src, trg⟩
 
   start ← from⌊to
   end ← from⌈to
   diff ← (end - start) - 1
   bound ← 8 - end
 
-  #•Show ⟨start, end, diff, bound⟩
-
-  #patch ← (0¨↕start) ∾ (⋈srcNew) ∾ (0¨↕diff) ∾ (⋈trgNew) ∾ (0¨↕bound)
   patch ← (0¨↕start) ∾ (to ¬∘(1≡to<from)◶{⋈trgNew}‿⊢ ⋈srcNew) ∾ (0¨↕diff) ∾ (to ¬∘(1≡to<from)◶{⋈srcNew}‿⊢ ⋈trgNew) ∾ (0¨↕bound)
-
-  #•Show ⟨patch, ≠patch⟩
-
-  #•Show (≠¨values) + patch
-  #•Show (+`»(≠¨values) + patch) {𝕨↓𝕩 }¨{(↕𝕩)⊏∾values }¨+`(≠¨values) + patch
-  #•Show (-move)‿move⊸+⌾(patch⊸/) ≠¨values
-
-  #patch2 ← (0¨↕start) ∾ (1) ∾ (0¨↕diff-1) ∾ (0) ∾ (0¨↕bound-1)
-  #a ← { •Show ⟨𝕩⟩ }(patch2 { ¬∘1≡𝕨◶{⊢⋄move↓𝕩}‿⊢ 𝕩 } ¨ values)
-  #•Show a
-
-  #•Show (0¨↕start) ∾ (-move) ∾ (0¨↕diff-1) ∾ (move) ∾ (0¨↕bound-1)
 
   charmat ↩ patch ⊣⌾((patch ⊐ srcNew‿trgNew)⊸⊏) charmat
 }
 
-#•Show charmat
-
-#{𝕩⊏y Reorder charmat} ¨↕504
-
 { (𝕩⊏y) Reorder charmat }¨↕504
 
 •Show charmat
-
-#(+`»⟨3,4,5⟩) { •Show 𝕩 ⋄ •Show 𝕨 ⋄  𝕨↓𝕩 }¨{(↕𝕩)⊏"foobarfizzbuzz" }¨+`⟨3,4,5⟩
-
-⟨6,8⟩ { ¬∘1+´∊⟨𝕩⟩◶{↓𝕩}‿⊢ }↕8
-
-
-vars ← ⟨"foo", "bar"⟩
-⟨6,8⟩ { ¬∘(1=+´𝕨∊⟨8⟩)◶{𝕩-1}‿0 8 } 8
-
-
-
-a ← ⟨"ab", "cde"⟩ ∾ 0¨↕6
-  (0¨↕6) » a
-
-from ← 6
-fromStr ← "foo"
-to ← 2
-toStr ← "bar"
-
-move ← 1
-
-¬∘(1≢move)◶{⌽}‿⊢ ⟨1,2⟩
-
-#(↕0) ∾ (to ¬∘(1≡to<from)◶{⋈fromStr}‿⊢ from) ∾ (↕2) ∾ (to ¬∘(1≡to<from)◶{⋈toStr}‿⊢ fromStr) ∾ (↕6)
