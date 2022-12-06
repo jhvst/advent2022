@@ -545,6 +545,7 @@ Reorder ← {
   src ← (↕move) ⊏ ⌽from⊑charmat
   trg ← to⊑charmat
   srcNew ← (¯1×move)↓from⊑charmat
+  src ↩ ¬∘(1≢move)◶{⌽}‿⊢ src
   trgNew ← (trg ∾ src)
 
   #•Show ⟨src, trg⟩
@@ -599,5 +600,9 @@ from ← 6
 fromStr ← "foo"
 to ← 2
 toStr ← "bar"
+
+move ← 1
+
+¬∘(1≢move)◶{⌽}‿⊢ ⟨1,2⟩
 
 #(↕0) ∾ (to ¬∘(1≡to<from)◶{⋈fromStr}‿⊢ from) ∾ (↕2) ∾ (to ¬∘(1≡to<from)◶{⋈toStr}‿⊢ fromStr) ∾ (↕6)
